@@ -30,6 +30,7 @@ public class WaterQualityService {
     private final WaterQualityRecordMapper recordMapper;
     private final AlertRecordMapper alertRecordMapper;
     private final RabbitTemplate rabbitTemplate;
+    private final SensorDataValidator validator;
 
     private static final String DEVICE_COMMAND_EXCHANGE = "aquarium.device.command";
     private static final String ALERT_EXCHANGE = "aquarium.alert";
@@ -39,12 +40,24 @@ public class WaterQualityService {
     private static final int AUTO_CONTROL_THRESHOLD = 3;
 
     public void processSensorData(SensorData data) {
+        SensorDataValidator.ValidationResult validation = validator.validate(data);
+        if (!validation.isValid()) {
+            log.warn("Sensor data rejected: deviceId={}, reason={}",
+                    data != null ? data.getDeviceId() : "null", validation.getMessage());
+            return;
+        }
+
         String tankId = resolveTankId(data.getDeviceId());
         data.setTimestamp(LocalDateTime.now());
         latestData.put(tankId, data);
 
         WaterQualityRecord record = buildRecord(tankId, data);
         recordMapper.insert(record);
+
+        if (validation.isSuspicious()) {
+            log.info("Sensor data flagged as suspicious but accepted: tankId={}, reason={}",
+                    tankId, validation.getMessage());
+        }
 
         List<WaterQualityAlert> alerts = thresholds.evaluate(data, tankId);
 
@@ -114,8 +127,13 @@ public class WaterQualityService {
                 }
                 case CHLORINE -> {
                     if (alert.getActualValue() > alert.getThresholdMax()) {
+                        int drainSeconds = WaterChemistryCalculator.estimateChlorineDrainSeconds(
+                                alert.getActualValue(),
+                                alert.getThresholdMax(),
+                                500.0,
+                                5.0);
                         command = buildDeviceCommand(tankId, DeviceType.CHLORINE_VALVE, "open",
-                                Map.of("duration_seconds", 60));
+                                Map.of("duration_seconds", drainSeconds));
                     }
                 }
                 case DISSOLVED_OXYGEN -> {
