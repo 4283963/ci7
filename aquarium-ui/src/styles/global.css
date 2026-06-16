@@ -381,3 +381,267 @@ body {
 .nav-label {
   font-size: 11px;
 }
+
+.breeding-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.breeding-card.active {
+  border-color: #52c41a;
+  background: linear-gradient(135deg, #f6ffed 0%, #ffffff 100%);
+}
+
+.breeding-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.breeding-tank-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.breeding-species {
+  font-size: 12px;
+  color: #999;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.breeding-status {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.breeding-status.preparing { background: #e6f7ff; color: #1890ff; }
+.breeding-status.breeding { background: #f9f0ff; color: #722ed1; }
+.breeding-status.hatching { background: #f6ffed; color: #52c41a; }
+.breeding-status.idle { background: #f5f5f5; color: #999; }
+
+.countdown-section {
+  background: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.countdown-section.due {
+  background: #fff2f0;
+  border-color: #ffccc7;
+  animation: pulse-bg 2s infinite;
+}
+
+@keyframes pulse-bg {
+  0%, 100% { background: #fff2f0; }
+  50% { background: #ffccc7; }
+}
+
+.countdown-section.subtle {
+  opacity: 0.7;
+}
+
+.countdown-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.countdown-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1890ff;
+  font-family: 'Courier New', monospace;
+}
+
+.countdown-value.small {
+  font-size: 16px;
+}
+
+.breeding-params {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.breeding-params span {
+  font-size: 12px;
+  color: #666;
+  background: #fafafa;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.breeding-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.breeding-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.breeding-btn.primary {
+  background: #52c41a;
+  color: white;
+}
+
+.breeding-btn.primary:active {
+  background: #389e0d;
+}
+
+.breeding-btn.danger {
+  background: #fff2f0;
+  color: #ff4d4f;
+  border: 1px solid #ffccc7;
+}
+
+.breeding-btn.danger:active {
+  background: #ffccc7;
+}
+
+.tank-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tank-select-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.tank-select-item.selected {
+  border-color: var(--primary);
+  background: #e6f7ff;
+}
+
+.tank-select-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tank-select-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+}
+
+.tank-icon {
+  font-size: 28px;
+}
+
+.tank-info {
+  flex: 1;
+}
+
+.tank-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tank-status-text {
+  font-size: 12px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.species-select {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.species-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 6px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+}
+
+.species-btn.selected {
+  border-color: var(--primary);
+  background: #e6f7ff;
+  color: var(--primary);
+}
+
+.species-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.breeding-summary {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.summary-row span:last-child {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.start-breeding-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.start-breeding-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.start-breeding-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}

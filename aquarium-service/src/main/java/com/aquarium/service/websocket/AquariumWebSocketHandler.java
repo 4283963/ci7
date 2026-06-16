@@ -54,6 +54,16 @@ public class AquariumWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    public void broadcastMessage(String type, Object payload) {
+        try {
+            String json = objectMapper.writeValueAsString(
+                    new WebSocketMessage(type, payload));
+            broadcast(json);
+        } catch (Exception e) {
+            log.error("Failed to broadcast message: type={}", type, e);
+        }
+    }
+
     private void broadcast(String message) {
         SESSIONS.forEach((id, session) -> {
             if (session.isOpen()) {

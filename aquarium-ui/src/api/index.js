@@ -44,4 +44,19 @@ export const iotApi = {
   getCommandHistory: (tankId) => api.get(`/iot/commands/tank/${tankId}`),
 }
 
+export const breedingApi = {
+  getAllConfigs: () => api.get('/breeding/configs'),
+  getConfig: (tankId) => api.get(`/breeding/config/${tankId}`),
+  updateConfig: (tankId, config) => api.put(`/breeding/config/${tankId}`, config),
+  startBreeding: (tankId, species) => api.post(`/breeding/start/${tankId}?species=${species}`),
+  stopBreeding: (tankId) => api.post(`/breeding/stop/${tankId}`),
+  markAsBirthed: (tankId) => api.post(`/breeding/mark-birthed/${tankId}`),
+  getCountdown: (tankId) => api.get(`/breeding/countdown/${tankId}`),
+  getAllCountdowns: () => api.get('/breeding/countdown'),
+  getActiveBreeding: () => api.get('/breeding/active'),
+  getSpeciesPresets: () => api.get('/breeding/species'),
+  batchStart: (tankIds, species) => api.post('/breeding/batch-start', { tankIds, species }),
+  batchStop: (tankIds) => api.post('/breeding/batch-stop', tankIds),
+}
+
 export default api

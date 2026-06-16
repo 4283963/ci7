@@ -92,3 +92,35 @@ INSERT INTO device (device_id, tank_id, device_type, status) VALUES
 ('DEV-010', 'TANK-3', 'chlorine_valve', 'off'),
 ('DEV-011', 'TANK-3', 'water_pump', 'off'),
 ('DEV-012', 'TANK-3', 'aeration_pump', 'off');
+
+CREATE TABLE IF NOT EXISTS breeding_config (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tank_id VARCHAR(64) NOT NULL UNIQUE COMMENT '鱼缸编号',
+    species VARCHAR(64) DEFAULT 'guppy' COMMENT '鱼种类: guppy/betta/molly/platy',
+    mode_status VARCHAR(16) DEFAULT 'idle' COMMENT '模式: idle/preparing/breeding/hatching',
+    target_temp DECIMAL(5,2) DEFAULT 26.5 COMMENT '目标水温(℃)',
+    target_ph DECIMAL(4,2) DEFAULT 7.2 COMMENT '目标pH值',
+    water_flow_level VARCHAR(16) DEFAULT 'low' COMMENT '水流强度: low/medium/high',
+    filter_pump_enabled TINYINT(1) DEFAULT 0 COMMENT '过滤泵开关(繁育期关闭防吸苗)',
+    aeration_level VARCHAR(16) DEFAULT 'medium' COMMENT '增氧强度: low/medium/high',
+    start_time DATETIME DEFAULT NULL COMMENT '繁育开始时间',
+    expected_birth_time DATETIME DEFAULT NULL COMMENT '预计产仔时间',
+    mother_removal_time DATETIME DEFAULT NULL COMMENT '母鱼捞取时间',
+    fry_safe_time DATETIME DEFAULT NULL COMMENT '鱼苗安全时间',
+    auto_stop_filter TINYINT(1) DEFAULT 1 COMMENT '是否自动停过滤泵',
+    auto_adjust_temp TINYINT(1) DEFAULT 1 COMMENT '是否自动调温',
+    reminder_enabled TINYINT(1) DEFAULT 1 COMMENT '是否开启提醒',
+    note VARCHAR(512) DEFAULT NULL COMMENT '备注',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_tank_id (tank_id),
+    INDEX idx_mode_status (mode_status)
+) ENGINE=InnoDB COMMENT='繁育模式配置表';
+
+INSERT INTO breeding_config
+    (tank_id, species, mode_status, target_temp, target_ph, water_flow_level,
+     filter_pump_enabled, aeration_level, auto_stop_filter, auto_adjust_temp, reminder_enabled)
+VALUES
+    ('TANK-1', 'guppy', 'idle', 26.5, 7.2, 'low', 1, 'medium', 1, 1, 1),
+    ('TANK-2', 'guppy', 'idle', 26.5, 7.2, 'low', 1, 'medium', 1, 1, 1),
+    ('TANK-3', 'guppy', 'idle', 26.5, 7.2, 'low', 1, 'medium', 1, 1, 1);

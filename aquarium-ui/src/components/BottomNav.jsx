@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 const navItems = [
   { path: '/', label: '监控', icon: '📊' },
+  { path: '/breeding', label: '繁育', icon: '🐟' },
   { path: '/devices', label: '设备', icon: '🎛️' },
   { path: '/alerts', label: '告警', icon: '🔔' },
   { path: '/history', label: '历史', icon: '📈' },
